@@ -95,7 +95,7 @@ typedef enum : NSUInteger {
     picker.colsInLandscape = 6;
     picker.minimumInteritemSpacing = 2.0;
 
-    if #available(iOS 13.0, *) {
+    if (@available(iOS 13.0, *)) {
         self.isModalInPresentation = true;
     }
 
