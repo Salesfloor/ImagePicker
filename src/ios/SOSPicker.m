@@ -91,7 +91,7 @@ typedef enum : NSUInteger {
     picker.maximumImagesCount = maximumImagesCount;
     picker.title = title;
     picker.customNavigationBarPrompt = message;
-    picker.colsInPortrait = 6;
+    picker.colsInPortrait = 4;
     picker.colsInLandscape = 6;
     picker.minimumInteritemSpacing = 2.0;
 
