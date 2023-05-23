@@ -96,7 +96,7 @@ typedef enum : NSUInteger {
     picker.minimumInteritemSpacing = 2.0;
 
     if (@available(iOS 13.0, *)) {
-        self.isModalInPresentation = true;
+        picker.isModalInPresentation = true;
     }
 
     if(!disable_popover) {
