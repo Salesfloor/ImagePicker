@@ -84,28 +84,28 @@ typedef enum : NSUInteger {
     [self launchGMImagePicker:allow_video title:title message:message disable_popover:disable_popover maximumImagesCount:maximumImagesCount];
 }
 
-- (void)launchGMImagePicker:(bool)allow_video title:(NSString *)title message:(NSString *)message disable_popover:(BOOL)disable_popover maximumImagesCount:(NSInteger)maximumImagesCount
-{
-    GMImagePickerController *picker = [[GMImagePickerController alloc] init:allow_video];
-    picker.delegate = self;
-    picker.maximumImagesCount = maximumImagesCount;
-    picker.title = title;
-    picker.customNavigationBarPrompt = message;
-    picker.colsInPortrait = 4;
-    picker.colsInLandscape = 6;
-    picker.minimumInteritemSpacing = 2.0;
+// - (void)launchGMImagePicker:(bool)allow_video title:(NSString *)title message:(NSString *)message disable_popover:(BOOL)disable_popover maximumImagesCount:(NSInteger)maximumImagesCount
+// {
+//     GMImagePickerController *picker = [[GMImagePickerController alloc] init:allow_video];
+//     picker.delegate = self;
+//     picker.maximumImagesCount = maximumImagesCount;
+//     picker.title = title;
+//     picker.customNavigationBarPrompt = message;
+//     picker.colsInPortrait = 4;
+//     picker.colsInLandscape = 6;
+//     picker.minimumInteritemSpacing = 2.0;
 
-    if(!disable_popover) {
-        picker.modalPresentationStyle = UIModalPresentationPopover;
+//     if(!disable_popover) {
+//         picker.modalPresentationStyle = UIModalPresentationPopover;
 
-        UIPopoverPresentationController *popPC = picker.popoverPresentationController;
-        popPC.permittedArrowDirections = UIPopoverArrowDirectionAny;
-        popPC.sourceView = picker.view;
-        //popPC.sourceRect = nil;
-    }
+//         UIPopoverPresentationController *popPC = picker.popoverPresentationController;
+//         popPC.permittedArrowDirections = UIPopoverArrowDirectionAny;
+//         popPC.sourceView = picker.view;
+//         //popPC.sourceRect = nil;
+//     }
 
-    [self.viewController showViewController:picker sender:nil];
-}
+//     [self.viewController showViewController:picker sender:nil];
+// }
 
 
 - (UIImage*)imageByScalingNotCroppingForSize:(UIImage*)anImage toSize:(CGSize)frameSize
