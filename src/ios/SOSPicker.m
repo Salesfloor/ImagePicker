@@ -96,7 +96,7 @@ typedef enum : NSUInteger {
     picker.minimumInteritemSpacing = 2.0;
 
     if(!disable_popover) {
-        picker.modalPresentationStyle = UIModalPresentationPopover;
+        picker.modalPresentationStyle = UIModalPresentationOverFullScreen;
 
         UIPopoverPresentationController *popPC = picker.popoverPresentationController;
         popPC.permittedArrowDirections = UIPopoverArrowDirectionAny;
