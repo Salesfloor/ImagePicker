@@ -58,6 +58,7 @@ async function requestReadPermission(successCallback, errorCallback, data) {
 }
 
 function openImagePicker(maximumImagesCount, desiredWidth, desiredHeight, quality, outputType, allowVideo) {
+  console.log("*****FROM ImagePicker.js*****");
   return new Promise((resolve, reject) => {
     let fileChooser = document.createElement('input');
 
