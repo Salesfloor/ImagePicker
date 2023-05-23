@@ -57,60 +57,59 @@ async function requestReadPermission(successCallback, errorCallback, data) {
   successCallback();
 }
 
-// function openImagePicker(maximumImagesCount, desiredWidth, desiredHeight, quality, outputType, allowVideo) {
-//   console.log("*****FROM ImagePicker.js*****");
-//   return new Promise((resolve, reject) => {
-//     let fileChooser = document.createElement('input');
+function openImagePicker(maximumImagesCount, desiredWidth, desiredHeight, quality, outputType, allowVideo) {
+  return new Promise((resolve, reject) => {
+    let fileChooser = document.createElement('input');
 
-//     fileChooser.type = 'file';
-//     fileChooser.accept = 'image/png, image/jpeg, image/gif';
-//     if (allowVideo) fileChooser.accept += ', video/mp4, video/webm, video/ogg';
+    fileChooser.type = 'file';
+    fileChooser.accept = 'image/png, image/jpeg, image/gif';
+    if (allowVideo) fileChooser.accept += ', video/mp4, video/webm, video/ogg';
 
-//     if (maximumImagesCount > 1) {
-//       fileChooser.setAttribute('multiple', '');
-//     }
+    if (maximumImagesCount > 1) {
+      fileChooser.setAttribute('multiple', '');
+    }
 
-//     fileChooser.onchange = (event) => {
-//       let resizeImagePromises = [];
-//       let fileNames =  []; //We need to store filenames as chrome deletes event.target.files to quickly
+    fileChooser.onchange = (event) => {
+      let resizeImagePromises = [];
+      let fileNames =  []; //We need to store filenames as chrome deletes event.target.files to quickly
 
-//       if (event.target.files.length <= maximumImagesCount) {
-//         for (let file of event.target.files) {
-//           fileNames.push('tmp_' + getDateTimeString() + '_' + file.name);
-//           resizeImagePromises.push(resizeImage(file, desiredWidth, desiredHeight, quality, outputType));
-//         }
+      if (event.target.files.length <= maximumImagesCount) {
+        for (let file of event.target.files) {
+          fileNames.push('tmp_' + getDateTimeString() + '_' + file.name);
+          resizeImagePromises.push(resizeImage(file, desiredWidth, desiredHeight, quality, outputType));
+        }
 
-//         Promise.all(resizeImagePromises).then((images) => {
-//           if (outputType == 0) {
-//             //If we need FILE_URI, we need to store the files in the temporary dir of the browser
-//             //So we need to write the files there Before
-//             let saveBlobPromises = [];
+        Promise.all(resizeImagePromises).then((images) => {
+          if (outputType == 0) {
+            //If we need FILE_URI, we need to store the files in the temporary dir of the browser
+            //So we need to write the files there Before
+            let saveBlobPromises = [];
 
-//             for (let i = 0; i < images.length; i++) {
-//               saveBlobPromises.push(saveBlobToTemporaryFileSystem(images[i], fileNames[i]));
-//             }
+            for (let i = 0; i < images.length; i++) {
+              saveBlobPromises.push(saveBlobToTemporaryFileSystem(images[i], fileNames[i]));
+            }
 
-//             Promise.all(saveBlobPromises).then((fileURIs) => {
-//               resolve(fileURIs);
-//             }).catch((error) => {
-//               reject('ERROR_WHILE_CREATING_FILES ' + error);
-//             });
-//           } else {
-//             //resizeImages returns the images in base64, so no need to do anything
-//             resolve(images);
-//           }
-//         }).catch((error) => {
-//           reject('ERROR_WHILE_RESIZING ' + error);
-//         });
-//       } else {
-//         reject('TO_MANY_IMAGES');
-//       }
-//     };
+            Promise.all(saveBlobPromises).then((fileURIs) => {
+              resolve(fileURIs);
+            }).catch((error) => {
+              reject('ERROR_WHILE_CREATING_FILES ' + error);
+            });
+          } else {
+            //resizeImages returns the images in base64, so no need to do anything
+            resolve(images);
+          }
+        }).catch((error) => {
+          reject('ERROR_WHILE_RESIZING ' + error);
+        });
+      } else {
+        reject('TO_MANY_IMAGES');
+      }
+    };
 
-//     //Now that the event is hooked we can click it
-//     fileChooser.click();
-//   });
-// }
+    //Now that the event is hooked we can click it
+    fileChooser.click();
+  });
+}
 
 //Promise resolving either a blob or a base64 string depending on outputType
 function resizeImage(file, desiredWidth, desiredHeight, quality, outputType) {
