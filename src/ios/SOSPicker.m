@@ -95,14 +95,18 @@ typedef enum : NSUInteger {
     picker.colsInLandscape = 6;
     picker.minimumInteritemSpacing = 2.0;
 
-    // if(!disable_popover) {
-    //     picker.modalPresentationStyle = UIModalPresentationPopover;
+    if #available(iOS 13.0, *) {
+        self.isModalInPresentation = true;
+    }
 
-    //     UIPopoverPresentationController *popPC = picker.popoverPresentationController;
-    //     popPC.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    //     popPC.sourceView = picker.view;
-    //     //popPC.sourceRect = nil;
-    // }
+    if(!disable_popover) {
+        picker.modalPresentationStyle = UIModalPresentationPopover;
+
+        UIPopoverPresentationController *popPC = picker.popoverPresentationController;
+        popPC.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        popPC.sourceView = picker.view;
+        //popPC.sourceRect = nil;
+    }
 
     [self.viewController showViewController:picker sender:nil];
 }
