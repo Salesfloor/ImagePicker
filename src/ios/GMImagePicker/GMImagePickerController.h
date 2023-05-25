@@ -84,6 +84,13 @@ static CGSize const kPopoverContentSize = {480, 720};
 @property (nonatomic, strong) UINavigationController *navigationController;
 
 /**
+ *  Determines modal dismiss with swipe down.
+ *  false: Allow modal dismiss with swipe down.
+ *  true: Restrict modal dismiss with swipe down.
+ */
+@property (nonatomic, assign) BOOL isModalInPresentation;
+
+/**
  *  Managing Asset Selection
  */
 - (void)selectAsset:(PHAsset *)asset;
