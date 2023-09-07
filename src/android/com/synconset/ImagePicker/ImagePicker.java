@@ -20,8 +20,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import org.apache.cordova.PermissionHelper;
 
 public class ImagePicker extends CordovaPlugin {
 
@@ -29,7 +28,8 @@ public class ImagePicker extends CordovaPlugin {
     private static final String ACTION_HAS_READ_PERMISSION = "hasReadPermission";
     private static final String ACTION_REQUEST_READ_PERMISSION = "requestReadPermission";
 
-    private static final int PERMISSION_REQUEST_CODE = 100;
+    private static final int PERMISSION_REQUEST_CODE = 1;
+    private static final int PERMISSION_DENIED_ERROR = 20;
 
     private CallbackContext callbackContext;
 
@@ -102,19 +102,28 @@ public class ImagePicker extends CordovaPlugin {
         return false;
     }
 
+    private String getPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Android API 33 and higher
+            return Manifest.permission.READ_MEDIA_IMAGES;
+        } else {
+            // Android API 32 or lower
+            return Manifest.permission.READ_EXTERNAL_STORAGE;
+        }
+    }
+
     @SuppressLint("InlinedApi")
     private boolean hasReadPermission() {
-        return Build.VERSION.SDK_INT < 23 ||
-            PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this.cordova.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (!PermissionHelper.hasPermission(this, getPermission())) {
+            return false;
+        }
+        return true;
     }
 
     @SuppressLint("InlinedApi")
     private void requestReadPermission() {
         if (!hasReadPermission()) {
-            ActivityCompat.requestPermissions(
-                this.cordova.getActivity(),
-                new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
-                PERMISSION_REQUEST_CODE);
+            PermissionHelper.requestPermission(this, PERMISSION_REQUEST_CODE, getPermission());
         }
         // This method executes async and we seem to have no known way to receive the result
         // (that's why these methods were later added to Cordova), so simply returning ok now.
