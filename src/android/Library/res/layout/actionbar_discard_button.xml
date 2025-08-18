@@ -19,7 +19,8 @@
     android:layout_width="0dp"
     android:layout_height="fill_parent"
     android:layout_weight="1"
-    style="?android:actionButtonStyle">
+    style="?android:actionButtonStyle"
+    android:background="#80FFFFFF">
 
     <TextView android:id="@+id/actionbar_discard_textview"
         android:text="@string/discard"
