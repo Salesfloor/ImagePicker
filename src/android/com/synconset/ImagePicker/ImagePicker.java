@@ -103,13 +103,7 @@ public class ImagePicker extends CordovaPlugin {
     }
 
     private String getPermission() {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            // Android API 33 and higher
-            return Manifest.permission.READ_MEDIA_IMAGES;
-        } else {
-            // Android API 32 or lower
-            return Manifest.permission.READ_EXTERNAL_STORAGE;
-        }
+        return Manifest.permission.READ_EXTERNAL_STORAGE;
     }
 
     @SuppressLint("InlinedApi")
